@@ -1,23 +1,32 @@
+using AirQuality.DAL.DataContext;
+using AirQuality.DAL.Interfaces;
+using AirQuality.DAL.Repositories;
+using AirQuality.Services.Interfaces;
+using AirQuality.Services.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// DB
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+
+// DI
+builder.Services.AddScoped<IWsdRepository, WsdRepository>();
+builder.Services.AddScoped<IWsdService, WsdService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
- 
+} 
 
 app.UseAuthorization();
 
