@@ -48,7 +48,7 @@ namespace AirQuality.DAL.Repositories
         {
             try
             {
-                var lastData = await _db.WeatherStationData.LastAsync();
+                var lastData = await _db.WeatherStationData.OrderBy(x => x.CreationDate).LastAsync();
 
                 return new DBResponse(lastData, "Данные успешно получены");
             }
