@@ -15,12 +15,16 @@ builder.Services.AddSwaggerGen();
 // DB
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // DI
 builder.Services.AddScoped<IWsdRepository, WsdRepository>();
 builder.Services.AddScoped<IWsdService, WsdService>();
 
 var app = builder.Build();
+
+//CORS
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 if (app.Environment.IsDevelopment())
 {
@@ -31,8 +35,5 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
-//CORS
-app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.Run();

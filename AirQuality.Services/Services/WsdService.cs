@@ -16,16 +16,21 @@ namespace AirQuality.Services.Services
             _db = db;
         }
 
-        public Task<DBResponse> AddAsync(WeatherStationDataDto wsdDto)
+        public async Task<DBResponse> AddAsync(WeatherStationDataDto wsdDto)
         {
             WeatherStationData wsd = WsdDtoToWsd.Map(wsdDto);
 
-            return _db.TryAddAsync(wsd);
+            return await _db.TryAddAsync(wsd);
         }
         
-        public Task<DBResponse> GetAllAsync()
+        public async Task<DBResponse> GetAllAsync()
         {
-            return _db.TryGetAllAsync();
+            return await _db.TryGetAllAsync();
+        }
+
+        public async Task<DBResponse> GetLastAsync()
+        {
+            return await _db.TryGetLastAsync();
         }
     }
 }

@@ -7,5 +7,6 @@ namespace AirQuality.DAL.Interfaces
     {
         public Task<DBResponse> TryGetAllAsync();
         public Task<DBResponse> TryAddAsync(WeatherStationData data);
+        public Task<DBResponse> TryGetLastAsync();
     }
 }

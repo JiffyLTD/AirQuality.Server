@@ -43,5 +43,19 @@ namespace AirQuality.DAL.Repositories
                 return new DBResponse(null, ex.Message);
             }
         }
+
+        public async Task<DBResponse> TryGetLastAsync()
+        {
+            try
+            {
+                var lastData = await _db.WeatherStationData.LastAsync();
+
+                return new DBResponse(lastData, "Данные успешно получены");
+            }
+            catch (Exception ex)
+            {
+                return new DBResponse(null, ex.Message);
+            }
+        }
     }
 }

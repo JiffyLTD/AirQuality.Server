@@ -7,5 +7,6 @@ namespace AirQuality.Services.Interfaces
     {
         public Task<DBResponse> GetAllAsync();
         public Task<DBResponse> AddAsync(WeatherStationDataDto wsdDto);
+        public Task<DBResponse> GetLastAsync();
     }
 }

@@ -23,6 +23,14 @@ namespace AirQuality.API.ApiControllers
             return Results.Ok(result);
         }
 
+        [HttpGet("getLast")]
+        public async Task<IResult> GetLast()
+        {
+            var result = await _wsService.GetLastAsync();
+
+            return Results.Ok(result);
+        }
+
         [HttpPost("add")]
         public async Task<IResult> Post(WeatherStationDataDto wsdDto)
         {
