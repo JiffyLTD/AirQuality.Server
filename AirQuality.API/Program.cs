@@ -1,7 +1,5 @@
 using AirQuality.DAL.DataContext;
-using AirQuality.DAL.Interfaces;
-using AirQuality.DAL.Repositories;
-using AirQuality.Services.Interfaces;
+using AirQuality.Domain.Interfaces;
 using AirQuality.Services.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,8 +16,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connect
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // DI
-builder.Services.AddScoped<IWsdRepository, WsdRepository>();
-builder.Services.AddScoped<IWsdService, WsdService>();
+builder.Services.AddScoped<IStationService, StationService>();
+builder.Services.AddScoped<IStationDataService, StationDataService>();
 
 var app = builder.Build();
 

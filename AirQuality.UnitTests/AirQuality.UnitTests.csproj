@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.14" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="NUnit.Analyzers" Version="3.3.0" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AirQuality.API\AirQuality.API.csproj" />
+    <ProjectReference Include="..\AirQuality.DAL\AirQuality.DAL.csproj" />
+    <ProjectReference Include="..\AirQuality.Domain\AirQuality.Domain.csproj" />
+    <ProjectReference Include="..\AirQuality.Services\AirQuality.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestsStationDataService\" />
+  </ItemGroup>
+
+</Project>

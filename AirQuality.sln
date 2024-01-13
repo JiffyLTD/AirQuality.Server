@@ -10,11 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решен
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirQuality.Domain", "AirQuality.Domain\AirQuality.Domain.csproj", "{3CF6F173-6268-4267-99B9-A78AA54982C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.Domain", "AirQuality.Domain\AirQuality.Domain.csproj", "{3CF6F173-6268-4267-99B9-A78AA54982C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirQuality.DAL", "AirQuality.DAL\AirQuality.DAL.csproj", "{93FDE998-EB36-408A-97E4-FBD0BCE08FA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.DAL", "AirQuality.DAL\AirQuality.DAL.csproj", "{93FDE998-EB36-408A-97E4-FBD0BCE08FA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirQuality.Services", "AirQuality.Services\AirQuality.Services.csproj", "{779542FA-3AE4-427F-95F7-7284D710DEDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.Services", "AirQuality.Services\AirQuality.Services.csproj", "{779542FA-3AE4-427F-95F7-7284D710DEDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirQuality.UnitTests", "AirQuality.UnitTests\AirQuality.UnitTests.csproj", "{F7373C93-DB7B-4204-AEDB-FABCA8DACFBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{779542FA-3AE4-427F-95F7-7284D710DEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{779542FA-3AE4-427F-95F7-7284D710DEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{779542FA-3AE4-427F-95F7-7284D710DEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7373C93-DB7B-4204-AEDB-FABCA8DACFBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7373C93-DB7B-4204-AEDB-FABCA8DACFBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7373C93-DB7B-4204-AEDB-FABCA8DACFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7373C93-DB7B-4204-AEDB-FABCA8DACFBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
