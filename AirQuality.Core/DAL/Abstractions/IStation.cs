@@ -16,7 +16,7 @@ namespace AirQuality.Core.DAL.Abstractions
         /// <summary>
         /// Уникальный идентификатор станции
         /// </summary>
-        public Guid StationId { get; }
+        public Guid SensorId { get; }
 
         /// <summary>
         /// Строка содержащая данные с датчика GPS

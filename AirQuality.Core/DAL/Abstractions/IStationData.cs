@@ -10,7 +10,7 @@
         /// <summary>
         /// Уникальный идентификатор станции от которой получаем данные
         /// </summary>
-        public Guid SensorId { get; }
+        public Guid StationId { get; }
 
         /// <summary>
         /// Температура окружающего воздуха

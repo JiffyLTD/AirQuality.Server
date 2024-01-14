@@ -19,7 +19,7 @@ namespace AirQuality.UnitTests.TestsStationService.Mappers
             Assert.Multiple(() =>
             {
                 Assert.That(station, Is.Not.Null);
-                Assert.That(stationDtoId, Is.EqualTo(station.StationId.ToString()));
+                Assert.That(stationDtoId, Is.EqualTo(station.SensorId.ToString()));
                 Assert.That(locationDto, Is.EqualTo(station.Location));
             });
         }

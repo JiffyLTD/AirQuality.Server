@@ -14,9 +14,9 @@ namespace AirQuality.SensorService.Services
             _db = db;
         }
 
-        public async Task<StationData> TryCreateAsync(CreateStationDataDto createStationDataDto)
+        public async Task<StationData> TryCreateAsync(CreateStationDataDto createStationDataDto, string stationId)
         {
-            var stationData = StationDataMapper.CreateStationDataDtoToStationData(createStationDataDto);
+            var stationData = StationDataMapper.CreateStationDataDtoToStationData(createStationDataDto, stationId);
 
             await _db.StationsData.AddAsync(stationData);
             await _db.SaveChangesAsync();
