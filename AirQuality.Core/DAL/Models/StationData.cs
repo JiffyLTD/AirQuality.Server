@@ -9,10 +9,10 @@ namespace AirQuality.Core.DAL.Models
         {
         }
 
-        public StationData(string sensorId, float temperature, int humidity, int pm_1, int pm_2_5, int pm_10, int co, int pressure)
+        public StationData(string stationId, float temperature, int humidity, int pm_1, int pm_2_5, int pm_10, int co, int pressure)
         {
             Id = Guid.NewGuid();
-            SensorId = Guid.Parse(sensorId);
+            StationId = Guid.Parse(stationId);
             Temperature = temperature;
             Humidity = humidity;
             Pm_1 = pm_1;
@@ -27,7 +27,7 @@ namespace AirQuality.Core.DAL.Models
         public Guid Id { get; private set; }
 
         [ForeignKey("Station")]
-        public Guid SensorId { get; private set; }
+        public Guid StationId { get; private set; }
 
         public float Temperature { get; private set; }
 

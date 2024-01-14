@@ -2,6 +2,7 @@
 using AirQuality.Core.DAL.Models;
 using AirQuality.SensorService.DTO;
 using AirQuality.SensorService.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace AirQuality.SensorService.Services
 {
@@ -14,14 +15,24 @@ namespace AirQuality.SensorService.Services
             _db = db;
         }
 
-        public async Task<Station> TryCreateAsync(CreateStationDto createStationDto)
+        public async Task<Station> TryCreateOrUpdateAsync(CreateStationDto createStationDto)
         {
-            var station = StationMapper.CreateStationDtoToStation(createStationDto);
+            var existStation = await _db.Stations.FirstOrDefaultAsync(s => s.SensorId == Guid.Parse(createStationDto.SensorId));
 
-            await _db.Stations.AddAsync(station);
+            if (existStation == null)
+            {
+                var station = StationMapper.CreateStationDtoToStation(createStationDto);
+
+                await _db.Stations.AddAsync(station);
+                await _db.SaveChangesAsync();
+
+                return station;
+            }
+
+            existStation.SetLocation(createStationDto.Location);
             await _db.SaveChangesAsync();
 
-            return station;
+            return existStation;
         }
     }
 }

@@ -21,8 +21,15 @@ namespace AirQuality.SensorService.Controllers
         {
             try
             {
-                var station = await _stationService.TryCreateAsync(createRequest.CreateStationDto);
-                var stationData = await _stationDataService.TryCreateAsync(createRequest.CreateStationDataDto);
+                var station = await _stationService.TryCreateOrUpdateAsync(createRequest.CreateStationDto);
+
+                if(station == null)
+                {
+                    throw new Exception("Не удалось создать или обновить данные станции");
+                }
+
+                string stationId = station.Id.ToString();
+                var stationData = await _stationDataService.TryCreateAsync(createRequest.CreateStationDataDto, stationId);
 
                 var response = new
                 {

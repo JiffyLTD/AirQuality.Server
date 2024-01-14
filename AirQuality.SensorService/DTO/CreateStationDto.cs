@@ -2,13 +2,13 @@
 {
     public class CreateStationDto
     {
-        public CreateStationDto(string stationId, string location)
+        public CreateStationDto(string sensorId, string location)
         {
-            StationId = stationId;
+            SensorId = sensorId;
             Location = location;
         }
 
-        public string StationId { get; private set; } = null!;
+        public string SensorId { get; private set; } = null!;
         public string Location { get; private set; } = null!;
     }
 }

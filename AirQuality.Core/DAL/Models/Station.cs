@@ -8,10 +8,10 @@ namespace AirQuality.Core.DAL.Models
         {
         }
 
-        public Station(string stationId, string location)
+        public Station(string sensorId, string location)
         {
             Id = Guid.NewGuid();
-            StationId = Guid.Parse(stationId);
+            SensorId = Guid.Parse(sensorId);
             Location = location;
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
@@ -19,12 +19,21 @@ namespace AirQuality.Core.DAL.Models
 
         public Guid Id { get; private set; }
 
-        public Guid StationId { get; private set; }
+        public Guid SensorId { get; private set; }
 
         public string Location { get; private set; } = null!;
 
         public DateTime CreatedAt { get; private set; }
 
         public DateTime UpdatedAt { get; private set; }
+
+        /// <summary>
+        /// Обновить данные по местоположению и время обновления записи
+        /// </summary>
+        public void SetLocation(string location)
+        {
+            Location = location;
+            UpdatedAt = DateTime.Now;
+        }
     }
 }

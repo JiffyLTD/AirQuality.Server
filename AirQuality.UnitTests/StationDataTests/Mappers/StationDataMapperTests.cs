@@ -12,7 +12,7 @@ namespace AirQuality.UnitTests.TestsStationData.Mappers
         {
             Random random = new();
 
-            var stationDataDtoId = Guid.NewGuid().ToString();
+            var stationId = Guid.NewGuid().ToString();
             var temperature = NextFloat(random);
             var humidity = random.Next(100);
             var Pm_1 = random.Next(500);
@@ -21,7 +21,6 @@ namespace AirQuality.UnitTests.TestsStationData.Mappers
             var co = random.Next(1023);
             var pressure = random.Next(9000, 11000);
             CreateStationDataDto createStationDataDto = new(
-                stationDataDtoId,
                 temperature,
                 humidity,
                 Pm_1,
@@ -31,13 +30,9 @@ namespace AirQuality.UnitTests.TestsStationData.Mappers
                 pressure
                 );
 
-            StationData stationData = StationDataMapper.CreateStationDataDtoToStationData(createStationDataDto);
+            StationData stationData = StationDataMapper.CreateStationDataDtoToStationData(createStationDataDto, stationId);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(stationData, Is.Not.Null);
-               
-            });
+            Assert.That(stationData, Is.Not.Null);
         }
 
         private static float NextFloat(Random random)

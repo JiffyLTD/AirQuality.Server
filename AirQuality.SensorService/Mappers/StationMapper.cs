@@ -8,7 +8,7 @@ namespace AirQuality.SensorService.Mappers
     {
         public static Station CreateStationDtoToStation(CreateStationDto createStationDto)
         {
-            var station = new Station(createStationDto.StationId, createStationDto.Location);
+            var station = new Station(createStationDto.SensorId, createStationDto.Location);
 
             return station;
         }
