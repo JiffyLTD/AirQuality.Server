@@ -1,48 +1,28 @@
 using AirQuality.Core.DAL;
+using AirQuality.SensorService.Extentions.ServiceCollections;
 using AirQuality.SensorService.Middlewares;
 using AirQuality.SensorService.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMvc();
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(s =>
-{
-    s.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header
-    });
-
-    s.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
-
 var connectionString = builder.Configuration.GetConnectionString("PostgreDb");
-builder.Services.AddDbContext<ApplicationDbContext>(
-           options => options.UseNpgsql(connectionString));
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-builder.Services.AddScoped<StationDataService>();
-builder.Services.AddScoped<StationService>();
+if(connectionString == null)
+    throw new Exception("Invalid connection string");
 
+builder.Services
+    .AddMvc().Services
+    .AddControllers().Services
+    .AddEndpointsApiExplorer()
+    .AddSwagger()
+    .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString))
+    .AddScoped<StationDataService>()
+    .AddScoped<StationService>()
+    ;
+    
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -51,9 +31,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<TokenMiddleware>();
-app.UseHttpsRedirection();
+app.UseMiddleware<TokenMiddleware>()
+    .UseHttpsRedirection()
+    ;
+
 app.MapControllers();
 
-app.Run();
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.ToString());
+}
 
