@@ -16,11 +16,25 @@ namespace AirQuality.SensorService.Middlewares
         
         public async Task InvokeAsync(HttpContext context)
         {
-            var requestToken = context.Request.Headers.Authorization.ToString();
+            try
+            {
+                var requestToken = context.Request?.Headers.Authorization.ToString();
+                var checkToken = _configuration.GetSection("Token").Value?.ToString();
 
-            var checkToken = _configuration.GetSection("Token").Value?.ToString(); 
-            
-            if (requestToken != checkToken)
+                if (requestToken != checkToken)
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    var response = new
+                    {
+                        code = StatusCodes.Status401Unauthorized,
+                        message = "Invalid token"
+                    };
+                    await context.Response.WriteAsJsonAsync(response);
+                }
+
+                await _next.Invoke(context);
+            }
+            catch 
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 var response = new
@@ -30,8 +44,6 @@ namespace AirQuality.SensorService.Middlewares
                 };
                 await context.Response.WriteAsJsonAsync(response);
             }
-
-            await _next.Invoke(context);
         }
     }
 }
