@@ -7,6 +7,8 @@ namespace AirQuality.WebService.GraphQL.Queries
 {
     public partial class Query
     {
+        [UseFiltering]
+        [UseSorting]
         public async Task<Station?> GetStationAsync([Service] MasterDbContext db, Guid id)
         {
             return await db.Stations.FirstOrDefaultAsync(x => x.SensorId == id);
