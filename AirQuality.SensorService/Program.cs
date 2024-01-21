@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("PostgreDb");
 
-if(connectionString == null)
+if (connectionString == null)
     throw new Exception("Invalid connection string");
 
 builder.Services
@@ -18,11 +18,14 @@ builder.Services
     .AddControllers().Services
     .AddEndpointsApiExplorer()
     .AddSwagger()
-    .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString))
+    .AddDbContext<ApplicationDbContext>(options => 
+        options.UseNpgsql(connectionString)
+        .UseSnakeCaseNamingConvention()
+        )
     .AddScoped<StationDataService>()
     .AddScoped<StationService>()
     ;
-    
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
