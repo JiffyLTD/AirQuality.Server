@@ -1,5 +1,5 @@
-﻿using AirQuality.Core.DAL;
-using AirQuality.Core.DAL.Models;
+﻿using AirQuality.Core.DAL.Models;
+using AirQuality.SensorService.DAL;
 using AirQuality.SensorService.DTO;
 using AirQuality.SensorService.Mappers;
 
@@ -7,9 +7,9 @@ namespace AirQuality.SensorService.Services
 {
     public class StationDataService
     {
-        private readonly ApplicationDbContext _db;
+        private readonly MasterDbContext _db;
 
-        public StationDataService(ApplicationDbContext db)
+        public StationDataService(MasterDbContext db)
         {
             _db = db;
         }

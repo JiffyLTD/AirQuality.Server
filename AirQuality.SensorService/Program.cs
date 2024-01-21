@@ -1,8 +1,10 @@
 using AirQuality.Core.DAL;
+using AirQuality.SensorService.DAL;
 using AirQuality.SensorService.Extentions.ServiceCollections;
 using AirQuality.SensorService.Middlewares;
 using AirQuality.SensorService.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -19,6 +21,10 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddSwagger()
     .AddDbContext<ApplicationDbContext>(options => 
+        options.UseNpgsql(connectionString)
+        .UseSnakeCaseNamingConvention()
+        )
+    .AddDbContext<MasterDbContext>(options =>
         options.UseNpgsql(connectionString)
         .UseSnakeCaseNamingConvention()
         )
@@ -46,7 +52,7 @@ try
 }
 catch (Exception ex)
 {
-    Console.WriteLine(ex.ToString());
+    Trace.WriteLine("ERROR|| " + ex.ToString());
 }
 
 

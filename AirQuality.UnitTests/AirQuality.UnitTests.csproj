@@ -23,4 +23,8 @@
     <ProjectReference Include="..\AirQuality.WebService\AirQuality.WebService.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WebService\" />
+  </ItemGroup>
+
 </Project>
