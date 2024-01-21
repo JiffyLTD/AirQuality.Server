@@ -26,26 +26,27 @@ builder.Services
     .AddScoped<StationService>()
     ;
 
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseMiddleware<TokenMiddleware>()
-    .UseHttpsRedirection()
-    ;
-
-app.MapControllers();
-
 try
 {
+    var app = builder.Build();
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseMiddleware<TokenMiddleware>()
+        .UseHttpsRedirection()
+        ;
+
+    app.MapControllers();
+
     app.Run();
 }
 catch (Exception ex)
 {
     Console.WriteLine(ex.ToString());
 }
+
 

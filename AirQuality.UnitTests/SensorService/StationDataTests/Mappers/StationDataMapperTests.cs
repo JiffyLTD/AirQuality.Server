@@ -2,7 +2,7 @@
 using AirQuality.SensorService.DTO;
 using AirQuality.SensorService.Mappers;
 
-namespace AirQuality.UnitTests.TestsStationData.Mappers
+namespace AirQuality.UnitTests.SensorService.StationDataTests.Mappers
 {
     [TestFixture]
     public class StationDataMapperTests
@@ -37,7 +37,7 @@ namespace AirQuality.UnitTests.TestsStationData.Mappers
 
         private static float NextFloat(Random random)
         {
-            double mantissa = (random.NextDouble() * 2.0) - 1.0;
+            double mantissa = random.NextDouble() * 2.0 - 1.0;
             double exponent = Math.Pow(2.0, random.Next(-126, 128));
 
             return (float)(mantissa * exponent);

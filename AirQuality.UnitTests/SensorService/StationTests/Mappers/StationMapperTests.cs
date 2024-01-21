@@ -2,7 +2,7 @@
 using AirQuality.SensorService.DTO;
 using AirQuality.SensorService.Mappers;
 
-namespace AirQuality.UnitTests.TestsStationService.Mappers
+namespace AirQuality.UnitTests.SensorService.StationTests.Mappers
 {
     [TestFixture]
     public class StationMapperTests
