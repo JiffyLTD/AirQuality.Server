@@ -1,16 +1,17 @@
 ﻿using AirQuality.Core.DAL.Models;
 using AirQuality.WebService.DAL;
-using Microsoft.EntityFrameworkCore;
 
-namespace AirQuality.WebService.GraphQL.Queries
+namespace AirQuality.WebService.GraphQL.Queries;
+
+public partial class Query
 {
-    public partial class Query
+    [GraphQLDescription("Получить данные по всем метеостанциям")]
+    [UsePaging]
+    [UseProjection]
+    [UseFiltering]
+    [UseSorting]
+    public IQueryable<Station> GetStations([Service] MasterDbContext db)
     {
-        [UseFiltering]
-        [UseSorting]
-        public async Task<List<Station>> GetStationsAsync([Service] MasterDbContext db)
-        {
-            return await db.Stations.ToListAsync();
-        }
+        return db.Stations;
     }
 }

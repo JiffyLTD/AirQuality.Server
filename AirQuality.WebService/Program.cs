@@ -22,8 +22,10 @@ builder.Services
         )
     .AddGraphQLServer()
     .AddQueryType<Query>()
+    .AddProjections()
     .AddSorting()
     .AddFiltering()
+    
     ;
 
 try
