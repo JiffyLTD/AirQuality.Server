@@ -1,6 +1,5 @@
 ﻿using AirQuality.Core.DAL.Models;
 using AirQuality.WebService.DAL;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AirQuality.WebService.GraphQL.Queries;
 

@@ -25,7 +25,6 @@ builder.Services
     .AddProjections()
     .AddSorting()
     .AddFiltering()
-    
     ;
 
 try
