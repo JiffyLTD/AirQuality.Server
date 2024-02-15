@@ -1,7 +1,7 @@
 ﻿using AirQuality.Core.DAL;
 using Microsoft.EntityFrameworkCore;
 
-namespace AirQuality.SensorService.DAL;
+namespace AirQuality.WebService.DAL;
 
 public class MasterDbContext : ApplicationDbContext
 {
