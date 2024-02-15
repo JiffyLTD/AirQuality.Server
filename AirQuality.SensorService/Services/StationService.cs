@@ -4,35 +4,34 @@ using AirQuality.SensorService.DTO;
 using AirQuality.SensorService.Mappers;
 using Microsoft.EntityFrameworkCore;
 
-namespace AirQuality.SensorService.Services
+namespace AirQuality.SensorService.Services;
+
+public class StationService
 {
-    public class StationService
+    private readonly MasterDbContext _db;
+
+    public StationService(MasterDbContext db)
     {
-        private readonly MasterDbContext _db;
+        _db = db;
+    }
 
-        public StationService(MasterDbContext db)
+    public async Task<Station> TryCreateOrUpdateAsync(CreateStationDto createStationDto)
+    {
+        var existStation = await _db.Stations.FirstOrDefaultAsync(s => s.SensorId == Guid.Parse(createStationDto.SensorId));
+
+        if (existStation == null)
         {
-            _db = db;
-        }
+            var station = StationMapper.CreateStationDtoToStation(createStationDto);
 
-        public async Task<Station> TryCreateOrUpdateAsync(CreateStationDto createStationDto)
-        {
-            var existStation = await _db.Stations.FirstOrDefaultAsync(s => s.SensorId == Guid.Parse(createStationDto.SensorId));
-
-            if (existStation == null)
-            {
-                var station = StationMapper.CreateStationDtoToStation(createStationDto);
-
-                await _db.Stations.AddAsync(station);
-                await _db.SaveChangesAsync();
-
-                return station;
-            }
-
-            existStation.SetLocation(createStationDto.Location);
+            await _db.Stations.AddAsync(station);
             await _db.SaveChangesAsync();
 
-            return existStation;
+            return station;
         }
+
+        existStation.SetLocation(createStationDto.Location);
+        await _db.SaveChangesAsync();
+
+        return existStation;
     }
 }

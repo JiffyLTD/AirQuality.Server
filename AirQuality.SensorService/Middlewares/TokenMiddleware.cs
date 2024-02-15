@@ -1,40 +1,24 @@
-﻿using AirQuality.Core.DAL.Models;
+﻿namespace AirQuality.SensorService.Middlewares;
 
-namespace AirQuality.SensorService.Middlewares
+public class TokenMiddleware
 {
-    public class TokenMiddleware
+    private readonly RequestDelegate _next;
+    private readonly IConfiguration _configuration;
+
+    public TokenMiddleware(RequestDelegate next, IConfiguration configuration)
     {
-        private readonly RequestDelegate _next;
-        private readonly IConfiguration _configuration;
+        _next = next;
+        _configuration = configuration;
+    }
 
-        public TokenMiddleware(RequestDelegate next, IConfiguration configuration)
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
         {
-            _next = next;
-            _configuration = configuration;
-        }
+            var requestToken = context.Request?.Headers.Authorization.ToString();
+            var checkToken = _configuration.GetSection("Token").Value?.ToString();
 
-        
-        public async Task InvokeAsync(HttpContext context)
-        {
-            try
-            {
-                var requestToken = context.Request?.Headers.Authorization.ToString();
-                var checkToken = _configuration.GetSection("Token").Value?.ToString();
-
-                if (requestToken != checkToken)
-                {
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    var response = new
-                    {
-                        code = StatusCodes.Status401Unauthorized,
-                        message = "Invalid token"
-                    };
-                    await context.Response.WriteAsJsonAsync(response);
-                }
-
-                await _next.Invoke(context);
-            }
-            catch 
+            if (requestToken != checkToken)
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 var response = new
@@ -44,6 +28,18 @@ namespace AirQuality.SensorService.Middlewares
                 };
                 await context.Response.WriteAsJsonAsync(response);
             }
+
+            await _next.Invoke(context);
+        }
+        catch
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            var response = new
+            {
+                code = StatusCodes.Status401Unauthorized,
+                message = "Invalid token"
+            };
+            await context.Response.WriteAsJsonAsync(response);
         }
     }
 }

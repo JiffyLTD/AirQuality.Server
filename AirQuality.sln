@@ -9,13 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решен
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.UnitTests", "AirQuality.UnitTests\AirQuality.UnitTests.csproj", "{F7373C93-DB7B-4204-AEDB-FABCA8DACFBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.SensorService", "AirQuality.SensorService\AirQuality.SensorService.csproj", "{15A1899B-64AC-4307-924B-30D4F62D17AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirQuality.SensorService", "AirQuality.SensorService\AirQuality.SensorService.csproj", "{15A1899B-64AC-4307-924B-30D4F62D17AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.Core", "AirQuality.Core\AirQuality.Core.csproj", "{057942E4-23AD-4FA9-8F1A-00D09CB577C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirQuality.Core", "AirQuality.Core\AirQuality.Core.csproj", "{057942E4-23AD-4FA9-8F1A-00D09CB577C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.WebService", "AirQuality.WebService\AirQuality.WebService.csproj", "{A8EE4A06-894E-4AAF-876F-69D9407C7384}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirQuality.WebService", "AirQuality.WebService\AirQuality.WebService.csproj", "{A8EE4A06-894E-4AAF-876F-69D9407C7384}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.SensorService.Tests", "AirQuality.SensorService.Tests\AirQuality.SensorService.Tests.csproj", "{1C224E35-6C5C-4B73-9FA3-F4B0DB27ECF9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.WebService.Tests", "AirQuality.WebService.Tests\AirQuality.WebService.Tests.csproj", "{D4467F2F-153B-496F-A340-CA27FA340283}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F7373C93-DB7B-4204-AEDB-FABCA8DACFBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7373C93-DB7B-4204-AEDB-FABCA8DACFBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7373C93-DB7B-4204-AEDB-FABCA8DACFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7373C93-DB7B-4204-AEDB-FABCA8DACFBE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15A1899B-64AC-4307-924B-30D4F62D17AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15A1899B-64AC-4307-924B-30D4F62D17AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15A1899B-64AC-4307-924B-30D4F62D17AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +37,14 @@ Global
 		{A8EE4A06-894E-4AAF-876F-69D9407C7384}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8EE4A06-894E-4AAF-876F-69D9407C7384}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8EE4A06-894E-4AAF-876F-69D9407C7384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C224E35-6C5C-4B73-9FA3-F4B0DB27ECF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C224E35-6C5C-4B73-9FA3-F4B0DB27ECF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C224E35-6C5C-4B73-9FA3-F4B0DB27ECF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C224E35-6C5C-4B73-9FA3-F4B0DB27ECF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4467F2F-153B-496F-A340-CA27FA340283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4467F2F-153B-496F-A340-CA27FA340283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4467F2F-153B-496F-A340-CA27FA340283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4467F2F-153B-496F-A340-CA27FA340283}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

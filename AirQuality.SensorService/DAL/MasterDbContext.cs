@@ -1,12 +1,11 @@
 ﻿using AirQuality.Core.DAL;
 using Microsoft.EntityFrameworkCore;
 
-namespace AirQuality.SensorService.DAL
+namespace AirQuality.SensorService.DAL;
+
+public class MasterDbContext : ApplicationDbContext
 {
-    public class MasterDbContext : ApplicationDbContext
+    public MasterDbContext(DbContextOptions options) : base(options)
     {
-        public MasterDbContext(DbContextOptions options) : base(options)
-        {
-        }
     }
 }

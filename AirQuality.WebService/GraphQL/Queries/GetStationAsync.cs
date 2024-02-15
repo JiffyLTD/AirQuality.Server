@@ -5,7 +5,7 @@ namespace AirQuality.WebService.GraphQL.Queries;
 
 public partial class Query
 {
-    [GraphQLDescription("Получить данные по метеостанции")]
+    [GraphQLDescription("Получить информацию по метеостанции")]
     [UseProjection]
     [UseFiltering]
     [UseSorting]

@@ -5,13 +5,13 @@ namespace AirQuality.WebService.GraphQL.Queries;
 
 public partial class Query
 {
-    [GraphQLDescription("Получить информацию по всем метеостанциям")]
+    [GraphQLDescription("Получить данные от всех метеостанций")]
     [UsePaging]
     [UseProjection]
     [UseFiltering]
     [UseSorting]
-    public IQueryable<Station> GetStations([Service] MasterDbContext db)
+    public IQueryable<StationData> GetStationDatas([Service] MasterDbContext db)
     {
-        return db.Stations;
+        return db.StationsData;
     }
 }
