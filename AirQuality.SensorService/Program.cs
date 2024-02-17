@@ -1,50 +1,44 @@
-using AirQuality.Core.DAL;
-using AirQuality.SensorService.DAL;
-using AirQuality.SensorService.Extentions.ServiceCollections;
+using AirQuality.Core;
+using AirQuality.Core.Loggers;
+using AirQuality.SensorService.Extentions;
+using AirQuality.SensorService.Loggers;
 using AirQuality.SensorService.Middlewares;
 using AirQuality.SensorService.Services;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("PostgreDb");
-
-if (connectionString == null)
-    throw new Exception("Invalid connection string");
+builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), Constants.LogsFilename));
 
 builder.Services
     .AddMvc().Services
     .AddControllers().Services
     .AddEndpointsApiExplorer()
     .AddSwagger()
-    .AddDbContext<ApplicationDbContext>(options => 
-        options.UseNpgsql(connectionString)
-        .UseSnakeCaseNamingConvention()
-        )
-    .AddDbContext<MasterDbContext>(options =>
-        options.UseNpgsql(connectionString)
-        .UseSnakeCaseNamingConvention()
-        )
+    .AddDbContext(builder.Configuration)
     .AddScoped<StationDataService>()
     .AddScoped<StationService>()
     ;
 
+var app = builder.Build();
+
 try
 {
-    var app = builder.Build();
-
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI();
     }
 
-    app.UseMiddleware<TokenMiddleware>()
-        .UseHttpsRedirection()
-        ;
+    app.UseHttpsRedirection();
+  
+    app.UseWhen(context => 
+        context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase), 
+        appBuilder =>
+        {
+            appBuilder.UseMiddleware<TokenMiddleware>();
+        });
 
     app.MapControllers();
 
@@ -52,7 +46,7 @@ try
 }
 catch (Exception ex)
 {
-    Trace.WriteLine("ERROR|| " + ex.ToString());
+    app.Logger.LogError(LoggerMessages.Error(ex.Message.ToString()));
 }
 
 

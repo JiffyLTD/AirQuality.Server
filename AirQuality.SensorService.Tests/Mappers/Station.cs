@@ -3,7 +3,7 @@ using AirQuality.SensorService.DTO;
 using AirQuality.SensorService.Mappers;
 using NUnit.Framework;
 
-namespace AirQuality.UnitTests.SensorService.Mappers;
+namespace AirQuality.SensorService.Tests.Mappers;
 
 [TestFixture]
 internal partial class MappersTests

@@ -1,45 +1,67 @@
-﻿namespace AirQuality.SensorService.Middlewares;
+﻿using AirQuality.Core.Loggers;
+using Microsoft.Extensions.Primitives;
+
+namespace AirQuality.SensorService.Middlewares;
 
 public class TokenMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IConfiguration _configuration;
+    private readonly ILogger<TokenMiddleware> _log;
 
-    public TokenMiddleware(RequestDelegate next, IConfiguration configuration)
+    public TokenMiddleware(RequestDelegate next, IConfiguration configuration, ILogger<TokenMiddleware> log)
     {
         _next = next;
         _configuration = configuration;
+        _log = log;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public Task InvokeAsync(HttpContext context)
     {
         try
         {
-            var requestToken = context.Request?.Headers.Authorization.ToString();
-            var checkToken = _configuration.GetSection("Token").Value?.ToString();
+            var requestToken = context.Request.Headers.Authorization.FirstOrDefault();
 
-            if (requestToken != checkToken)
+            if (string.IsNullOrEmpty(requestToken))
             {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.StatusCode = 401;
                 var response = new
                 {
                     code = StatusCodes.Status401Unauthorized,
                     message = "Invalid token"
                 };
-                await context.Response.WriteAsJsonAsync(response);
+
+                return context.Response.WriteAsJsonAsync(response);
             }
 
-            await _next.Invoke(context);
+            var checkToken = _configuration.GetSection("Token").Value?.ToString();
+
+            if (requestToken != checkToken)
+            {
+                context.Response.StatusCode = 401;
+                var response = new
+                {
+                    code = StatusCodes.Status401Unauthorized,
+                    message = "Invalid token"
+                };
+
+                return context.Response.WriteAsJsonAsync(response);
+            }
+
+            return _next.Invoke(context);
         }
-        catch
+        catch (Exception ex) 
         {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            _log.LogWarning(LoggerMessages.Warning(ex.Message.ToString()));
+
+            context.Response.StatusCode = 401;
             var response = new
             {
                 code = StatusCodes.Status401Unauthorized,
                 message = "Invalid token"
             };
-            await context.Response.WriteAsJsonAsync(response);
+
+            return context.Response.WriteAsJsonAsync(response);
         }
     }
 }

@@ -5,10 +5,10 @@ namespace AirQuality.SensorService.Mappers;
 
 public static class StationDataMapper
 {
-    public static StationData CreateStationDataDtoToStationData(CreateStationDataDto createStationDataDto, string stationId)
+    public static StationData CreateStationDataDtoToStationData(CreateStationDataDto createStationDataDto, string sensorId)
     {
         var stationData = new StationData(
-            stationId,
+            sensorId,
             createStationDataDto.Temperature,
             createStationDataDto.Humidity,
             createStationDataDto.Pm_1,
