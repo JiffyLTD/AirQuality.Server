@@ -1,4 +1,4 @@
-﻿using AirQuality.SensorService.DTO;
+﻿using AirQuality.SensorService.Inputs;
 using AirQuality.SensorService.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,37 +17,22 @@ public class SensorController : ControllerBase
     }
 
     [HttpPost("api/sensor")]
-    public async Task<IResult> Post(CreateRequest createRequest)
+    public async Task<IResult> Post(CreateRequestInput input)
     {
-        try
+        var stationId = await _stationService.CreateOrUpdateAsync(input.CreateStationDto);
+
+        if(stationId == Guid.Empty)
         {
-            var station = await _stationService.TryCreateOrUpdateAsync(createRequest.CreateStationDto);
-
-            if(station == null)
-                throw new Exception("Не удалось создать или обновить данные станции");
-
-            string stationId = station.Id.ToString();
-            var stationData = await _stationDataService.TryCreateAsync(createRequest.CreateStationDataDto, stationId);
-
-            var response = new
-            {
-                data = new
-                {
-                    station,
-                    stationData
-                }
-            };
-
-            return Results.Ok(response);
+            return Results.BadRequest(new { errors = "Не удалось создать или обновить данные Station"});
         }
-        catch (Exception ex)
+
+        var stationData = await _stationDataService.CreateAsync(input.CreateStationDataDto, stationId.ToString());
+
+        if (!stationData)
         {
-            var response = new
-            {
-                error = ex.Message.ToString()
-            };
-
-            return Results.BadRequest(response);
+            return Results.BadRequest(new { errors = "Не удалось создать данные StationData" });
         }
+
+        return Results.Ok(true);
     }
 }

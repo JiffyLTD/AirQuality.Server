@@ -3,7 +3,7 @@ using AirQuality.WebService.DAL;
 
 namespace AirQuality.WebService.GraphQL.Queries;
 
-public partial class Query
+public partial class Queries
 {
     [GraphQLDescription("Получить данные от всех метеостанций")]
     [UsePaging]

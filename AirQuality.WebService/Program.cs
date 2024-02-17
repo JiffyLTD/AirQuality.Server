@@ -1,30 +1,12 @@
-using AirQuality.Core.DAL;
-using AirQuality.WebService.DAL;
-using AirQuality.WebService.GraphQL.Queries;
-using Microsoft.EntityFrameworkCore;
+using AirQuality.WebService;
+using AirQuality.WebService.Extentions;
 using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("PostgreDb");
-
-if (connectionString == null)
-    throw new Exception("Invalid connection string");
-
 builder.Services
-    .AddDbContext<ApplicationDbContext>(options =>
-        options.UseNpgsql(connectionString)
-        .UseSnakeCaseNamingConvention()
-        )
-    .AddDbContext<MasterDbContext>(options =>
-        options.UseNpgsql(connectionString)
-        .UseSnakeCaseNamingConvention()
-        )
-    .AddGraphQLServer()
-    .AddQueryType<Query>()
-    .AddProjections()
-    .AddSorting()
-    .AddFiltering()
+    .AddDbContext(builder.Configuration)
+    .AddGraphQL()
     ;
 
 try
@@ -34,12 +16,12 @@ try
     app.UseHttpsRedirection();
     app.UseRouting();
 
-    app.MapGraphQL("/webservice/graphql");
+    app.MapGraphQL(Constants.GraphQLEndpoint);
 
     app.Run();
 }
 catch (Exception ex)
-{ 
+{
     Trace.WriteLine("ERROR|| " + ex.ToString());
 }
 

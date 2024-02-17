@@ -1,6 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace AirQuality.SensorService.Extentions.ServiceCollections;
+namespace AirQuality.SensorService.Extentions;
 
 public static class RegisterSwagger
 {

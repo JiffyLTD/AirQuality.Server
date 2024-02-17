@@ -2,12 +2,12 @@
 
 internal static class Helper
 {
-    public static float GetRandomFloat()
+    public static float GetRandomFloat(int min, int max)
     {
         Random random = new();
 
         double mantissa = random.NextDouble() * 2.0 - 1.0;
-        double exponent = Math.Pow(2.0, random.Next(-126, 128));
+        double exponent = Math.Pow(2.0, random.Next(min, max));
 
         return (float)(mantissa * exponent);
     }

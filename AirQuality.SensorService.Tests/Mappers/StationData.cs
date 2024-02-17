@@ -1,11 +1,11 @@
-﻿using AirQuality.Core.Constants;
+﻿using AirQuality.Core;
 using AirQuality.Core.DAL.Models;
 using AirQuality.SensorService.DTO;
 using AirQuality.SensorService.Mappers;
 using AirQuality.SensorService.Tests.Helpers;
 using NUnit.Framework;
 
-namespace AirQuality.UnitTests.SensorService.Mappers;
+namespace AirQuality.SensorService.Tests.Mappers;
 
 [TestFixture]
 internal partial class MappersTests
@@ -14,7 +14,7 @@ internal partial class MappersTests
     public void StationDataDtoToStationData()
     {
         var stationId = Guid.NewGuid().ToString();
-        var temperature = Helper.GetRandomFloat();
+        var temperature = Helper.GetRandomFloat(Constants.TemperatureMinValue, Constants.TemperatureMaxValue);
         var humidity = Helper.GetRandomInt(Constants.HumidityMinValue, Constants.HumidityMaxValue);
         var Pm_1 = Helper.GetRandomInt(Constants.Pm_1MinValue, Constants.Pm_1MaxValue);
         var Pm_2_5 = Helper.GetRandomInt(Constants.Pm_2_5MinValue, Constants.Pm_2_5MaxValue);

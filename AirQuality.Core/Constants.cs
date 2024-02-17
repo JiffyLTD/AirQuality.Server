@@ -1,9 +1,12 @@
-﻿namespace AirQuality.Core.Constants;
+﻿namespace AirQuality.Core;
 
 public static class Constants
 {
-    public const float TemperatureMaxValue = 100;
-    public const float TemperatureMinValue = -273;
+    public const string DbConnectionStringSection = "PostgreDb";
+    public const string LogsFilename = "logs.txt";
+
+    public const int TemperatureMaxValue = 100;
+    public const int TemperatureMinValue = -273;
     public const int HumidityMaxValue = 100;
     public const int HumidityMinValue = 0;
     public const int Pm_1MaxValue = 500;
