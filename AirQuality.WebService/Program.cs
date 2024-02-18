@@ -1,28 +1,39 @@
+using AirQuality.WebService.Middlewares;
 using AirQuality.WebService;
 using AirQuality.WebService.Extentions;
-using System.Diagnostics;
+using AirQuality.Core.Loggers;
+using AirQuality.WebService.Loggers;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.AddFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(), AirQuality.Core.Constants.LogsFilename));
 
 builder.Services
     .AddDbContext(builder.Configuration)
     .AddGraphQL()
     ;
 
+var app = builder.Build();
+
 try
 {
-    var app = builder.Build();
-
     app.UseHttpsRedirection();
     app.UseRouting();
 
     app.MapGraphQL(Constants.GraphQLEndpoint);
 
+    app.UseWhen(context =>
+        context.Request.Path.StartsWithSegments("/webservice", StringComparison.OrdinalIgnoreCase),
+        appBuilder =>
+        {
+            appBuilder.UseMiddleware<TokenMiddleware>();
+        });
+
     app.Run();
 }
 catch (Exception ex)
 {
-    Trace.WriteLine("ERROR|| " + ex.ToString());
+    app.Logger.LogError(LoggerMessages.Error(ex.Message.ToString()));
 }
 
 
