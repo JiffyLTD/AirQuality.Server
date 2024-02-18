@@ -9,11 +9,14 @@ public class SensorController : ControllerBase
 {
     private readonly StationService _stationService;
     private readonly StationDataService _stationDataService;
+    private readonly InfoByLocationService _infoByLocationService;
 
-    public SensorController(StationService stationService, StationDataService stationDataService)
+    public SensorController(StationService stationService,
+        StationDataService stationDataService, InfoByLocationService infoByLocationService)
     {
         _stationService = stationService;
         _stationDataService = stationDataService;
+        _infoByLocationService = infoByLocationService;
     }
 
     [HttpPost("api/sensor")]
@@ -31,6 +34,13 @@ public class SensorController : ControllerBase
         if (!stationData)
         {
             return Results.BadRequest(new { errors = "Не удалось создать данные StationData" });
+        }
+
+        var infoByLocation = await _infoByLocationService.CreateOrUpdateAsync(stationId.ToString());
+
+        if (!infoByLocation)
+        {
+            return Results.BadRequest(new { errors = "Не удалось создать данные InfoByLocation" });
         }
 
         return Results.Ok(true);
