@@ -16,9 +16,9 @@ internal partial class MappersTests
         var stationId = Guid.NewGuid().ToString();
         var temperature = Helper.GetRandomFloat(Constants.TemperatureMinValue, Constants.TemperatureMaxValue);
         var humidity = Helper.GetRandomInt(Constants.HumidityMinValue, Constants.HumidityMaxValue);
-        var Pm_1 = Helper.GetRandomInt(Constants.Pm_1MinValue, Constants.Pm_1MaxValue);
-        var Pm_2_5 = Helper.GetRandomInt(Constants.Pm_2_5MinValue, Constants.Pm_2_5MaxValue);
-        var Pm_10 = Helper.GetRandomInt(Constants.Pm_10MinValue, Constants.Pm_10MaxValue);
+        var Pm_1 = Helper.GetRandomInt(Constants.Pm1MinValue, Constants.Pm1MaxValue);
+        var Pm_2_5 = Helper.GetRandomInt(Constants.Pm2_5MinValue, Constants.Pm2_5MaxValue);
+        var Pm_10 = Helper.GetRandomInt(Constants.Pm10MinValue, Constants.Pm10MaxValue);
         var co = Helper.GetRandomInt(Constants.CoMinValue, Constants.CoMaxValue);
         var pressure = Helper.GetRandomInt(Constants.PressureMinValue, Constants.PressureMaxValue);
         CreateStationDataDto createStationDataDto = new(

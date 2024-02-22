@@ -2,5 +2,5 @@
 
 internal class Constants
 {
-    public const string GraphQLEndpoint = "/webservice/graphql";
+    public const string GraphQlEndpoint = "/webservice/graphql";
 }

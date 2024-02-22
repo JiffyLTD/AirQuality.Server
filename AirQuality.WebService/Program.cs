@@ -20,7 +20,7 @@ try
     app.UseHttpsRedirection();
     app.UseRouting();
 
-    app.MapGraphQL(Constants.GraphQLEndpoint);
+    app.MapGraphQL(Constants.GraphQlEndpoint);
 
     app.UseWhen(context =>
         context.Request.Path.StartsWithSegments("/webservice", StringComparison.OrdinalIgnoreCase),
