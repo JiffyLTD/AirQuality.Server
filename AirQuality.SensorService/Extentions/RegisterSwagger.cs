@@ -10,7 +10,7 @@ public static class RegisterSwagger
         {
             s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                Name = "Authorization",
+                Name = "API-Key",
                 Type = SecuritySchemeType.ApiKey,
                 Scheme = "Bearer",
                 In = ParameterLocation.Header
@@ -18,17 +18,17 @@ public static class RegisterSwagger
 
             s.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
-            {
-                new OpenApiSecurityScheme
                 {
-                    Reference = new OpenApiReference
+                    new OpenApiSecurityScheme
                     {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                Array.Empty<string>()
-            }
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
             });
         });
 

@@ -3,7 +3,6 @@ using AirQuality.Core.Loggers;
 using AirQuality.SensorService.Extentions;
 using AirQuality.SensorService.Helpers;
 using AirQuality.SensorService.Loggers;
-using AirQuality.SensorService.Middlewares;
 using AirQuality.SensorService.Services;
 using Zefirrat.YandexGpt.AspNet.Di;
 
@@ -24,6 +23,7 @@ builder.Services
     .AddScoped<StationService>()
     .AddScoped<InfoByLocationService>()
     .AddScoped<YandexChatGpt>()
+    .AddAuthentication(builder.Configuration)
     ;
 
 var app = builder.Build();
@@ -36,14 +36,9 @@ try
         app.UseSwaggerUI();
     }
 
-    app.UseHttpsRedirection();
-  
-    app.UseWhen(context => 
-        context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase), 
-        appBuilder =>
-        {
-            appBuilder.UseMiddleware<TokenMiddleware>();
-        });
+    app.UseHttpsRedirection()
+        .UseAuthentication()
+        .UseAuthorization();
 
     app.MapControllers();
 
