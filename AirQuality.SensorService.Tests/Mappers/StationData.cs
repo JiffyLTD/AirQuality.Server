@@ -14,13 +14,13 @@ internal partial class MappersTests
     public void StationDataDtoToStationData()
     {
         var stationId = Guid.NewGuid().ToString();
-        var temperature = Helper.GetRandomFloat(Constants.TemperatureMinValue, Constants.TemperatureMaxValue);
-        var humidity = Helper.GetRandomInt(Constants.HumidityMinValue, Constants.HumidityMaxValue);
-        var Pm_1 = Helper.GetRandomInt(Constants.Pm_1MinValue, Constants.Pm_1MaxValue);
-        var Pm_2_5 = Helper.GetRandomInt(Constants.Pm_2_5MinValue, Constants.Pm_2_5MaxValue);
-        var Pm_10 = Helper.GetRandomInt(Constants.Pm_10MinValue, Constants.Pm_10MaxValue);
-        var co = Helper.GetRandomInt(Constants.CoMinValue, Constants.CoMaxValue);
-        var pressure = Helper.GetRandomInt(Constants.PressureMinValue, Constants.PressureMaxValue);
+        var temperature = Helper.GetRandomFloat(StationData.TemperatureMinValue, StationData.TemperatureMaxValue);
+        var humidity = Helper.GetRandomInt(StationData.HumidityMinValue, StationData.HumidityMaxValue);
+        var Pm_1 = Helper.GetRandomInt(StationData.Pm1MinValue, StationData.Pm1MaxValue);
+        var Pm_2_5 = Helper.GetRandomInt(StationData.Pm2_5MinValue, StationData.Pm2_5MaxValue);
+        var Pm_10 = Helper.GetRandomInt(StationData.Pm10MinValue, StationData.Pm10MaxValue);
+        var co = Helper.GetRandomInt(StationData.CoMinValue, StationData.CoMaxValue);
+        var pressure = Helper.GetRandomInt(StationData.PressureMinValue, StationData.PressureMaxValue);
         CreateStationDataDto createStationDataDto = new(
             temperature,
             humidity,

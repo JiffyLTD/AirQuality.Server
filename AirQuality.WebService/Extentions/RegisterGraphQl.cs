@@ -2,12 +2,13 @@
 
 namespace AirQuality.WebService.Extentions;
 
-public static class RegisterGraphQL
+public static class RegisterGraphQl
 {
-    public static IServiceCollection AddGraphQL(this IServiceCollection services)
+    public static IServiceCollection AddGraphQl(this IServiceCollection services)
     {
         services
             .AddGraphQLServer()
+            .AddAuthorization()
             .AddQueryType<Queries>()
             .AddProjections()
             .AddSorting()
