@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 
-namespace AirQuality.SensorService.Authentication;
+namespace AirQuality.Core.Authentication;
 
 public class TokenOptions : AuthenticationSchemeOptions
 {

@@ -1,4 +1,5 @@
-﻿using AirQuality.SensorService.Inputs;
+﻿using AirQuality.Core;
+using AirQuality.SensorService.Inputs;
 using AirQuality.SensorService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirQuality.SensorService.Controllers;
 
 [ApiController]
-[Authorize]
+[Authorize(Policy = Constants.Policies.OnlyService)]
 public class SensorController : ControllerBase
 {
     private readonly StationService _stationService;

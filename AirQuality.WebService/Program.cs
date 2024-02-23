@@ -1,8 +1,9 @@
-using AirQuality.WebService.Middlewares;
+using AirQuality.Core.Extentions;
 using AirQuality.WebService;
 using AirQuality.WebService.Extentions;
 using AirQuality.Core.Loggers;
 using AirQuality.WebService.Loggers;
+using HotChocolate.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,23 +11,31 @@ builder.Logging.AddFile(System.IO.Path.Combine(Directory.GetCurrentDirectory(), 
 
 builder.Services
     .AddDbContext(builder.Configuration)
-    .AddGraphQL()
+    .AddAuthentication(builder.Configuration)
+    .AddAuthorization(options =>
+    {
+        options.AddOnlyServicePolicy();
+    })
+    .AddGraphQl()
     ;
 
 var app = builder.Build();
 
 try
 {
-    app.UseHttpsRedirection();
-    app.UseRouting();
-
-    app.MapGraphQL(Constants.GraphQlEndpoint);
-
-    app.UseWhen(context =>
-        context.Request.Path.StartsWithSegments("/webservice", StringComparison.OrdinalIgnoreCase),
-        appBuilder =>
+    app.UseHttpsRedirection()
+        .UseAuthentication()
+        .UseAuthorization()
+        .UseRouting()
+        ;
+    
+    app.MapGraphQL(Constants.GraphQlEndpoint)
+        .WithOptions(new GraphQLServerOptions()
         {
-            appBuilder.UseMiddleware<TokenMiddleware>();
+            Tool =
+            {
+                Enable = false
+            }
         });
 
     app.Run();

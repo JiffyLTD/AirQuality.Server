@@ -1,4 +1,5 @@
 using AirQuality.Core;
+using AirQuality.Core.Extentions;
 using AirQuality.Core.Loggers;
 using AirQuality.SensorService.Extentions;
 using AirQuality.SensorService.Helpers;
@@ -24,6 +25,10 @@ builder.Services
     .AddScoped<InfoByLocationService>()
     .AddScoped<YandexChatGpt>()
     .AddAuthentication(builder.Configuration)
+    .AddAuthorization(options =>
+    {
+        options.AddOnlyServicePolicy();
+    })
     ;
 
 var app = builder.Build();
@@ -38,7 +43,8 @@ try
 
     app.UseHttpsRedirection()
         .UseAuthentication()
-        .UseAuthorization();
+        .UseAuthorization()
+        ;
 
     app.MapControllers();
 

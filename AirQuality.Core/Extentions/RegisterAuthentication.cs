@@ -1,6 +1,8 @@
-using AirQuality.SensorService.Authentication;
+using AirQuality.Core.Authentication;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace AirQuality.SensorService.Extentions;
+namespace AirQuality.Core.Extentions;
 
 public static class RegisterAuthentication
 {

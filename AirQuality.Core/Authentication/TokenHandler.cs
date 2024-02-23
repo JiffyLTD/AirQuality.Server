@@ -1,10 +1,12 @@
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AirQuality.SensorService.Authentication;
+namespace AirQuality.Core.Authentication;
 
 public class TokenHandler(IOptionsMonitor<TokenOptions> options, ILoggerFactory logger, UrlEncoder encoder, IConfiguration configuration)
     : AuthenticationHandler<TokenOptions>(options, logger, encoder)
@@ -15,7 +17,7 @@ public class TokenHandler(IOptionsMonitor<TokenOptions> options, ILoggerFactory 
             return AuthenticateResult.Fail($"Missing header: {Options.TokenHeaderName}");
         
         return await ValidateToken(configuration, value!) ? 
-            AuthenticateResult.Success(new AuthenticationTicket(GetFakeClaimsPrincipal(), Scheme.Name)) 
+            AuthenticateResult.Success(new AuthenticationTicket(GetClaimsPrincipal(), Scheme.Name)) 
             : AuthenticateResult.Fail($"Invalid token.");
     }
 
@@ -26,14 +28,14 @@ public class TokenHandler(IOptionsMonitor<TokenOptions> options, ILoggerFactory 
         if (token.IsNullOrEmpty())
             throw new Exception("Check configuration Token");
 
-        return await Task.Run(() => requestToken != token);
+        return await Task.Run(() => requestToken == token);
     }
 
-    private ClaimsPrincipal GetFakeClaimsPrincipal()
+    private ClaimsPrincipal GetClaimsPrincipal()
     {
         var claims = new List<Claim>()
         {
-            new Claim("ClaimName", "ClaimValue")
+            new Claim(Constants.ServiceClientId, "true")
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, this.Scheme.Name);
