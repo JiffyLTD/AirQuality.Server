@@ -17,6 +17,7 @@ builder.Services
         options.AddOnlyServicePolicy();
     })
     .AddGraphQl()
+    .AddCors()
     ;
 
 var app = builder.Build();
@@ -27,6 +28,7 @@ try
         .UseAuthentication()
         .UseAuthorization()
         .UseRouting()
+        .UseCors(options => options.AllowAnyOrigin().AllowAnyHeader())
         ;
     
     app.MapGraphQL(Constants.GraphQlEndpoint)

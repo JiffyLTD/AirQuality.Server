@@ -7,10 +7,10 @@ namespace AirQuality.WebService.GraphQL.Queries;
 
 public partial class Queries
 {
-    [GraphQLDescription("Получить информацию о средних показателях метеостанции")]
+    [GraphQLDescription("Получить данные от метеостанции")]
     [Authorize(Policy = Core.Constants.Policies.OnlyService)]
     [UseProjection]
-    public async Task<InfoByLocation> GetInfoByLocation([Service] MasterDbContext db, Guid stationId)
+    public async Task<StationData?> GetStationDataLast([Service] MasterDbContext db, Guid stationId)
     {
         try
         {
@@ -18,15 +18,17 @@ public partial class Queries
             {
                 throw new Exception("Not found");
             }
-        
-            var info = await db.InfosByLocation.FirstOrDefaultAsync(x => x.StationId == stationId);
 
-            if (info == null)
+            var stationData = await db.StationsData
+                .OrderBy(x => x.CreatedAt)
+                .LastOrDefaultAsync(x => x.StationId == stationId);
+
+            if (stationData == null)
             {
                 throw new Exception("Not found");
             }
-        
-            return info;
+
+            return stationData;
         }
         catch (Exception e)
         {

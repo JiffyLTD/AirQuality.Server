@@ -1,6 +1,7 @@
 ﻿using AirQuality.Core.DAL.Models;
 using AirQuality.WebService.DAL;
 using HotChocolate.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace AirQuality.WebService.GraphQL.Queries;
 
@@ -12,8 +13,16 @@ public partial class Queries
     [UseProjection]
     [UseFiltering]
     [UseSorting]
-    public IQueryable<Station> GetStations([Service] MasterDbContext db)
+    public async Task<IEnumerable<Station>> GetStations([Service] MasterDbContext db)
     {
-        return db.Stations;
+        try
+        {
+            var stations = await db.Stations.ToArrayAsync();
+            return stations;
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
     }
 }
