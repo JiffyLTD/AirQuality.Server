@@ -33,8 +33,14 @@ public class Station : IStation
     /// </summary>
     public void SetLocation(string location)
     {
-        Location = GetLongitudeAndLatitudeStringFromLocation(location);
-        UpdatedAt = DateTime.Now;
+        var newLocation = GetLongitudeAndLatitudeStringFromLocation(location);
+
+        // обновляем местоположение только если оно валидное
+        if (newLocation != "Invalid")
+        {
+            Location = newLocation;
+            UpdatedAt = DateTime.Now;
+        }
     }
 
     /// <summary>
