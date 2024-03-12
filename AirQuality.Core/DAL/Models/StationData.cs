@@ -17,8 +17,8 @@ public class StationData : IStationData
     public const int Pm10MinValue = 0;
     public const int CoMaxValue = 1024;
     public const int CoMinValue = 0;
-    public const int PressureMaxValue = 90000;
-    public const int PressureMinValue = 100000;
+    public const int PressureMinValue = 90000;
+    public const int PressureMaxValue = 100000;
     public StationData()
     {
     }

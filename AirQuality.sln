@@ -16,9 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.Core", "AirQuali
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.WebService", "AirQuality.WebService\AirQuality.WebService.csproj", "{A8EE4A06-894E-4AAF-876F-69D9407C7384}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.SensorService.Tests", "AirQuality.SensorService.Tests\AirQuality.SensorService.Tests.csproj", "{1C224E35-6C5C-4B73-9FA3-F4B0DB27ECF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirQuality.WebService.Tests", "AirQuality.WebService.Tests\AirQuality.WebService.Tests.csproj", "{06259432-EFF1-47A8-9CB5-0D27953BDEE6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirQuality.WebService.Tests", "AirQuality.WebService.Tests\AirQuality.WebService.Tests.csproj", "{D4467F2F-153B-496F-A340-CA27FA340283}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirQuality.SensorService.Tests", "AirQuality.SensorService.Tests\AirQuality.SensorService.Tests.csproj", "{1A658DFB-6C99-4769-8DB3-5E83B21E44CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,14 +38,14 @@ Global
 		{A8EE4A06-894E-4AAF-876F-69D9407C7384}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8EE4A06-894E-4AAF-876F-69D9407C7384}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8EE4A06-894E-4AAF-876F-69D9407C7384}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C224E35-6C5C-4B73-9FA3-F4B0DB27ECF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C224E35-6C5C-4B73-9FA3-F4B0DB27ECF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C224E35-6C5C-4B73-9FA3-F4B0DB27ECF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C224E35-6C5C-4B73-9FA3-F4B0DB27ECF9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4467F2F-153B-496F-A340-CA27FA340283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4467F2F-153B-496F-A340-CA27FA340283}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4467F2F-153B-496F-A340-CA27FA340283}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4467F2F-153B-496F-A340-CA27FA340283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06259432-EFF1-47A8-9CB5-0D27953BDEE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06259432-EFF1-47A8-9CB5-0D27953BDEE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06259432-EFF1-47A8-9CB5-0D27953BDEE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06259432-EFF1-47A8-9CB5-0D27953BDEE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A658DFB-6C99-4769-8DB3-5E83B21E44CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A658DFB-6C99-4769-8DB3-5E83B21E44CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A658DFB-6C99-4769-8DB3-5E83B21E44CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A658DFB-6C99-4769-8DB3-5E83B21E44CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
