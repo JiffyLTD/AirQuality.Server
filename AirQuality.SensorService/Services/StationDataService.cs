@@ -1,20 +1,13 @@
-﻿using AirQuality.Core.Loggers;
-using AirQuality.SensorService.DAL;
+﻿using AirQuality.SensorService.DAL;
 using AirQuality.SensorService.DTO;
 using AirQuality.SensorService.Mappers;
+using Serilog;
 
 namespace AirQuality.SensorService.Services;
 
-public class StationDataService
+public class StationDataService(MasterDbContext db)
 {
-    private readonly MasterDbContext _db;
-    private readonly ILogger<StationService> _log;
-
-    public StationDataService(MasterDbContext db, ILogger<StationService> log)
-    {
-        _db = db;
-        _log = log;
-    }
+    private readonly MasterDbContext _db = db;
 
     public async Task<bool> CreateAsync(CreateStationDataDto createStationDataDto, string stationId)
     {
@@ -25,13 +18,13 @@ public class StationDataService
             await _db.StationsData.AddAsync(stationData);
             await _db.SaveChangesAsync();
 
-            _log.LogInformation(LoggerMessages.Info($"StationData {{ StationId = {stationData.StationId} }} was created"));
+            Log.Information($"StationData {{ StationId = {stationData.StationId} }} was created");
 
             return true;
         }
         catch (Exception ex)
         {
-            _log.LogError(LoggerMessages.Error(ex.Message.ToString()));
+            Log.Error(ex.Message);
 
             return false;
         }

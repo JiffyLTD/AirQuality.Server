@@ -1,27 +1,21 @@
-﻿using AirQuality.Core.Loggers;
-using AirQuality.SensorService.DAL;
+﻿using AirQuality.SensorService.DAL;
 using AirQuality.SensorService.DTO;
 using AirQuality.SensorService.Mappers;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace AirQuality.SensorService.Services;
 
-public class StationService
+public class StationService(MasterDbContext db)
 {
-    private readonly MasterDbContext _db;
-    private readonly ILogger<StationService> _log;
-
-    public StationService(MasterDbContext db, ILogger<StationService> log)
-    {
-        _db = db;
-        _log = log;
-    }
+    private readonly MasterDbContext _db = db;
 
     public async Task<Guid> CreateOrUpdateAsync(CreateStationDto createStationDto)
     {
         try
         {
-            var existStation = await _db.Stations.FirstOrDefaultAsync(s => s.SensorId == Guid.Parse(createStationDto.SensorId));
+            var sensorId = Guid.Parse(createStationDto.SensorId);
+            var existStation = await _db.Stations.FirstOrDefaultAsync(s => s.SensorId == sensorId);
 
             if (existStation == null)
             {
@@ -30,21 +24,21 @@ public class StationService
                 await _db.Stations.AddAsync(station);
                 await _db.SaveChangesAsync();
 
-                _log.LogInformation(LoggerMessages.Info($"Station {{ SensorId = {station.SensorId} }} was created"));
+                Log.Information($"Station {{ SensorId = {sensorId} }} was created");
 
                 return station.Id;
             }
 
             existStation.SetLocation(createStationDto.Location);
             await _db.SaveChangesAsync();
-
-            _log.LogInformation(LoggerMessages.Info($"Station {{ SensorId = {existStation.SensorId} }} was updated"));
+            
+            Log.Information($"Station {{ SensorId = {sensorId} }} was updated");
 
             return existStation.Id;
         }
         catch (Exception ex)
         {
-            _log.LogError(LoggerMessages.Error(ex.Message.ToString()));
+            Log.Error(ex.Message);
 
             return Guid.Empty;
         }
