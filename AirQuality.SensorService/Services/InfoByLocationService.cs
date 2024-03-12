@@ -1,23 +1,15 @@
 ﻿using AirQuality.Core.DAL.Models;
-using AirQuality.Core.Loggers;
 using AirQuality.SensorService.DAL;
 using AirQuality.SensorService.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace AirQuality.SensorService.Services;
 
-public class InfoByLocationService
+public class InfoByLocationService(MasterDbContext db, YandexChatGpt yandexChatGpt)
 {
-    private readonly MasterDbContext _db;
-    private readonly ILogger<InfoByLocationService> _log;
-    private readonly YandexChatGpt _yandexChatGpt;
-
-    public InfoByLocationService(MasterDbContext db, ILogger<InfoByLocationService> log, YandexChatGpt yandexChatGpt)
-    {
-        _db = db;
-        _log = log;
-        _yandexChatGpt = yandexChatGpt;
-    }
+    private readonly MasterDbContext _db = db;
+    private readonly YandexChatGpt _yandexChatGpt = yandexChatGpt;
 
     public async Task<bool> CreateOrUpdateAsync(string stationIdString)
     {
@@ -30,7 +22,10 @@ public class InfoByLocationService
             var dateMax = dateNow.AddDays(1);
 
             var stationDatas = await _db.StationsData
-                .Where(x => x.StationId == stationId && x.CreatedAt >= dateMin && x.CreatedAt <= dateMax)
+                .Where(x => 
+                    x.StationId == stationId &&
+                    x.CreatedAt >= dateMin &&
+                    x.CreatedAt <= dateMax)
                 .ToListAsync();
 
             var infoByLocation = await _db.InfosByLocation.FirstOrDefaultAsync(x => x.StationId == stationId);
@@ -66,7 +61,7 @@ public class InfoByLocationService
         }
         catch (Exception ex)
         {
-            _log.LogError(LoggerMessages.Error(ex.Message.ToString()));
+            Log.Error(ex.Message);
 
             return false;
         }
