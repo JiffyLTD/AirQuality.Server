@@ -25,14 +25,14 @@ public class SensorController : ControllerBase
     [HttpPost("api/sensor")]
     public async Task<IResult> Post(CreateRequestInput input)
     {
-        var stationId = await _stationService.CreateOrUpdateAsync(input.CreateStationDto);
+        var stationId = await _stationService.CreateOrUpdateAsync(input.CreateStationInput);
 
         if(stationId == Guid.Empty)
         {
             return Results.BadRequest(new { errors = "Не удалось создать или обновить данные Station"});
         }
 
-        var stationData = await _stationDataService.CreateAsync(input.CreateStationDataDto, stationId.ToString());
+        var stationData = await _stationDataService.CreateAsync(input.CreateStationDataInput, stationId.ToString());
 
         if (!stationData)
         {

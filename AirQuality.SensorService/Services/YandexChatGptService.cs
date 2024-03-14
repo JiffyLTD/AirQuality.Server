@@ -1,9 +1,9 @@
 ﻿using Serilog;
 using Zefirrat.YandexGpt.Abstractions;
 
-namespace AirQuality.SensorService.Helpers;
+namespace AirQuality.SensorService.Services;
 
-public class YandexChatGpt(IYaPrompter prompter)
+public class YandexChatGptService(IYaPrompter prompter)
 {
     public async Task<string> GetAdvices(string locationName, float avgTemperature, int avgHumidity,
         int avgPm_1, int avgPm_2_5, int avgPm_10, int avgCo, int avgPressure)

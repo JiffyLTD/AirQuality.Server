@@ -37,7 +37,6 @@ try
         try
         {
             context.Database.Migrate();
-            
             Log.Information("Миграции успешно применены");
         }
         catch (Exception ex)

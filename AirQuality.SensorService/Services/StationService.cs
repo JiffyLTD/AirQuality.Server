@@ -1,6 +1,7 @@
-﻿using AirQuality.SensorService.DAL;
-using AirQuality.SensorService.DTO;
-using AirQuality.SensorService.Mappers;
+﻿using AirQuality.Core.DAL.Models;
+using AirQuality.SensorService.DAL;
+using AirQuality.SensorService.Helpers;
+using AirQuality.SensorService.Inputs;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -10,16 +11,23 @@ public class StationService(MasterDbContext db)
 {
     private readonly MasterDbContext _db = db;
 
-    public async Task<Guid> CreateOrUpdateAsync(CreateStationDto createStationDto)
+    public async Task<Guid> CreateOrUpdateAsync(CreateStationInput createStationInput)
     {
         try
         {
-            var sensorId = Guid.Parse(createStationDto.SensorId);
+            var sensorId = Guid.Parse(createStationInput.SensorId);
             var existStation = await _db.Stations.FirstOrDefaultAsync(s => s.SensorId == sensorId);
 
             if (existStation == null)
             {
-                var station = StationMapper.CreateStationDtoToStation(createStationDto);
+                var station = new Station()
+                {
+                    Id = Guid.NewGuid(),
+                    SensorId = Guid.Parse(createStationInput.SensorId),
+                    Location = Helper.GetLongitudeAndLatitudeStringFromLocation(createStationInput.Location),
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                };
 
                 await _db.Stations.AddAsync(station);
                 await _db.SaveChangesAsync();
@@ -29,10 +37,14 @@ public class StationService(MasterDbContext db)
                 return station.Id;
             }
 
-            existStation.SetLocation(createStationDto.Location);
-            await _db.SaveChangesAsync();
+            var newLocation = Helper.GetLongitudeAndLatitudeStringFromLocation(createStationInput.Location);
+            if (newLocation != "Invalid")
+            {
+                existStation.Location = newLocation;
+                await _db.SaveChangesAsync();
             
-            Log.Information($"Station {{ SensorId = {sensorId} }} was updated");
+                Log.Information($"Station {{ SensorId = {sensorId} }} was updated");   
+            }
 
             return existStation.Id;
         }

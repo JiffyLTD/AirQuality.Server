@@ -11,53 +11,35 @@ public class StationData : IStationData
     public const int HumidityMinValue = 0;
     public const int Pm1MaxValue = 500;
     public const int Pm1MinValue = 0;
-    public const int Pm2_5MaxValue = 500;
-    public const int Pm2_5MinValue = 0;
+    public const int Pm2MaxValue = 500;
+    public const int Pm2MinValue = 0;
     public const int Pm10MaxValue = 500;
     public const int Pm10MinValue = 0;
     public const int CoMaxValue = 1024;
     public const int CoMinValue = 0;
     public const int PressureMinValue = 90000;
     public const int PressureMaxValue = 100000;
-    public StationData()
-    {
-    }
 
-    public StationData(string stationId, float temperature, int humidity, int pm_1, int pm_2_5, int pm_10, int co, int pressure)
-    {
-        Id = Guid.NewGuid();
-        StationId = Guid.Parse(stationId);
-        Temperature = temperature;
-        Humidity = humidity;
-        Pm_1 = pm_1;
-        Pm_2_5 = pm_2_5;
-        Pm_10 = pm_10;
-        Co = co;
-        Pressure = pressure;
-        CreatedAt = DateTime.Now;
-        UpdatedAt = DateTime.Now;
-    }
-
-    public Guid Id { get; private set; }
+    public Guid Id { get; set; }
 
     [ForeignKey("Station")]
-    public Guid StationId { get; private set; }
+    public Guid StationId { get; set; }
 
-    public float Temperature { get; private set; }
+    public float Temperature { get; set; }
 
-    public int Humidity { get; private set; }
+    public int Humidity { get; set; }
 
-    public int Pm_1 { get; private set; }
+    public int Pm1 { get; set; }
 
-    public int Pm_2_5 { get; private set; }
+    public int Pm2 { get; set; }
 
-    public int Pm_10 { get; private set; }
+    public int Pm10 { get; set; }
 
-    public int Co { get; private set; }
+    public int Co { get; set; }
 
-    public int Pressure { get; private set; }
+    public int Pressure { get; set; }
 
-    public DateTime CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; set; }
 
-    public DateTime UpdatedAt { get; private set; }
+    public DateTime UpdatedAt { get; set; }
 }

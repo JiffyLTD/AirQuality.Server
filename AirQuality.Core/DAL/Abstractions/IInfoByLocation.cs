@@ -35,17 +35,17 @@ internal interface IInfoByLocation
     /// <summary>
     /// Среднее количество частиц в воздухе размером до 1мкм
     /// </summary>
-    public int AvgPm_1 { get; }
+    public int AvgPm1 { get; }
 
     /// <summary>
     /// Среднее количество частиц в воздухе размером до 2.5мкм
     /// </summary>
-    public int AvgPm_2_5 { get; }
+    public int AvgPm2 { get; }
 
     /// <summary>
     /// Среднее количество частиц в воздухе размером от 10мкм
     /// </summary>
-    public int AvgPm_10 { get; }
+    public int AvgPm10 { get; }
 
     /// <summary>
     /// Среднее количество угарного газа в воздухе ppm

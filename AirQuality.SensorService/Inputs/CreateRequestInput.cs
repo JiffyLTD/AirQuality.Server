@@ -1,9 +1,13 @@
-﻿using AirQuality.SensorService.DTO;
+﻿namespace AirQuality.SensorService.Inputs;
 
-namespace AirQuality.SensorService.Inputs;
-
-public class CreateRequestInput
+public interface ICreateRequestInput
 {
-    public CreateStationDto CreateStationDto { get; set; } = null!;
-    public CreateStationDataDto CreateStationDataDto { get; set; } = null!;
+    public static CreateStationInput CreateStationInput => null!;
+    public static CreateStationDataInput CreateStationDataInput => null!;
+}
+
+public class CreateRequestInput : ICreateRequestInput
+{
+    public CreateStationInput CreateStationInput { get; set; } = null!;
+    public CreateStationDataInput CreateStationDataInput { get; set; } = null!;
 }

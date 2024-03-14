@@ -25,17 +25,17 @@ public interface IStationData
     /// <summary>
     /// Количество частиц в воздухе размером до 1мкм
     /// </summary>
-    public int Pm_1 { get; }
+    public int Pm1 { get; }
 
     /// <summary>
     /// Количество частиц в воздухе размером до 2.5мкм
     /// </summary>
-    public int Pm_2_5 { get; }
+    public int Pm2 { get; }
 
     /// <summary>
     /// Количество частиц в воздухе размером от 10мкм
     /// </summary>
-    public int Pm_10 { get; }
+    public int Pm10 { get; }
 
     /// <summary>
     /// Количество угарного газа в воздухе ppm

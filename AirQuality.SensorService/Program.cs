@@ -2,7 +2,6 @@ using AirQuality.Core;
 using AirQuality.Core.Extentions;
 using AirQuality.SensorService.DAL;
 using AirQuality.SensorService.Extentions;
-using AirQuality.SensorService.Helpers;
 using AirQuality.SensorService.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -28,7 +27,7 @@ try
         .AddScoped<StationDataService>()
         .AddScoped<StationService>()
         .AddScoped<InfoByLocationService>()
-        .AddScoped<YandexChatGpt>()
+        .AddScoped<YandexChatGptService>()
         .AddAuthentication(builder.Configuration)
         .AddAuthorization(options => { options.AddOnlyServicePolicy(); })
         ;
