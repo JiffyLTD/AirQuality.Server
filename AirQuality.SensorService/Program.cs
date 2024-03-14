@@ -1,8 +1,10 @@
 using AirQuality.Core;
 using AirQuality.Core.Extentions;
+using AirQuality.SensorService.DAL;
 using AirQuality.SensorService.Extentions;
 using AirQuality.SensorService.Helpers;
 using AirQuality.SensorService.Services;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Zefirrat.YandexGpt.AspNet.Di;
 
@@ -34,6 +36,22 @@ try
     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
     var app = builder.Build();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<MasterDbContext>();
+
+        try
+        {
+            context.Database.Migrate();
+            
+            Log.Information("Миграции успешно применены");
+        }
+        catch (Exception ex)
+        {
+            Log.Information("Ошибка при выполнении миграций - " + ex.Message);
+        }
+    }
 
     if (app.Environment.IsDevelopment())
     {

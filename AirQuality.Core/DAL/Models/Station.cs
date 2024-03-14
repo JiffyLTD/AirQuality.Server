@@ -11,21 +11,16 @@ public class Station : IStation
 
     public Station(string sensorId, string location)
     {
-        Id = Guid.NewGuid();
         SensorId = Guid.Parse(sensorId);
         Location = GetLongitudeAndLatitudeStringFromLocation(location);
         CreatedAt = DateTime.Now;
         UpdatedAt = DateTime.Now;
     }
 
-    public Guid Id { get; private set; }
-
-    public Guid SensorId { get; private set; }
-
+    public Guid Id { get; init; }
+    public Guid SensorId { get; init; }
     public string Location { get; private set; } = null!;
-
-    public DateTime CreatedAt { get; private set; }
-
+    public DateTime CreatedAt { get; init; } 
     public DateTime UpdatedAt { get; private set; }
 
     /// <summary>
@@ -34,8 +29,7 @@ public class Station : IStation
     public void SetLocation(string location)
     {
         var newLocation = GetLongitudeAndLatitudeStringFromLocation(location);
-
-        // обновляем местоположение только если оно валидное
+        
         if (newLocation != "Invalid")
         {
             Location = newLocation;

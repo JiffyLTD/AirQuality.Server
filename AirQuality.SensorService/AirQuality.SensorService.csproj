@@ -28,4 +28,8 @@
     <ProjectReference Include="..\AirQuality.Core\AirQuality.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DAL\Migrations\" />
+  </ItemGroup>
+
 </Project>

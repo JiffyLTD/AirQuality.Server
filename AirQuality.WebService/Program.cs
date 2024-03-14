@@ -1,7 +1,9 @@
 using AirQuality.Core.Extentions;
 using AirQuality.WebService;
+using AirQuality.WebService.DAL;
 using AirQuality.WebService.Extentions;
 using HotChocolate.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -27,6 +29,22 @@ try
         ;
 
     var app = builder.Build();
+    
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<MasterDbContext>();
+
+        try
+        {
+            context.Database.Migrate();
+            
+            Log.Information("Миграции успешно применены");
+        }
+        catch (Exception ex)
+        {
+            Log.Information("Ошибка при выполнении миграций - " + ex.Message);
+        }
+    }
     
     app.UseHttpsRedirection()
         .UseAuthentication()
