@@ -1,5 +1,4 @@
 ﻿using AirQuality.Core.DAL;
-using AirQuality.WebService.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirQuality.WebService.Extentions;
@@ -14,14 +13,12 @@ public static class RegisterDb
             throw new Exception("Invalid connection string");
 
         services
-            .AddDbContext<ApplicationDbContext>(options =>
+            .AddDbContextFactory<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString)
-                .UseSnakeCaseNamingConvention()
-                )
-            .AddDbContext<MasterDbContext>(options =>
-                options.UseNpgsql(connectionString)
-                .UseSnakeCaseNamingConvention()
-                );
+                    .UseSnakeCaseNamingConvention()
+            )
+            .AddScoped<DbInitializer<ApplicationDbContext>>()
+            ;
 
         return services;
     }

@@ -1,5 +1,5 @@
-﻿using AirQuality.Core.DAL.Models;
-using AirQuality.WebService.DAL;
+﻿using AirQuality.Core.DAL;
+using AirQuality.Core.DAL.Models;
 using HotChocolate.Authorization;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,7 @@ public partial class Queries
     [UseProjection]
     [UseFiltering]
     [UseSorting]
-    public async Task<IEnumerable<Station>> GetStations([Service] MasterDbContext db)
+    public async Task<IEnumerable<Station>> GetStations([Service] ApplicationDbContext db)
     {
         try
         {

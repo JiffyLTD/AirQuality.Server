@@ -3,12 +3,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirQuality.Core.DAL;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
 {
     public DbSet<Station> Stations { get; set; }
     public DbSet<StationData> StationsData { get; set; }
     public DbSet<InfoByLocation> InfosByLocation { get; set; }
-    public ApplicationDbContext(DbContextOptions options) : base(options)
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Station>(builder =>
+        {
+            builder.HasKey(x => x.Id);
+        });
+        
+        modelBuilder.Entity<StationData>(builder =>
+        {
+            builder.HasKey(x => x.Id);
+        });
+        
+        modelBuilder.Entity<InfoByLocation>(builder =>
+        {
+            builder.HasKey(x => x.Id);
+        });
     }
 }

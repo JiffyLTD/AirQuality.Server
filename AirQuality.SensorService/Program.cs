@@ -1,7 +1,7 @@
 using AirQuality.Core;
+using AirQuality.Core.DAL;
 using AirQuality.Core.Extentions;
 using AirQuality.SensorService.Extentions;
-using AirQuality.SensorService.Helpers;
 using AirQuality.SensorService.Services;
 using Serilog;
 using Zefirrat.YandexGpt.AspNet.Di;
@@ -9,7 +9,8 @@ using Zefirrat.YandexGpt.AspNet.Di;
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File(Constants.LogsFilename)
-    .CreateLogger();
+    .CreateLogger()
+    ;
 
 try
 {
@@ -26,7 +27,7 @@ try
         .AddScoped<StationDataService>()
         .AddScoped<StationService>()
         .AddScoped<InfoByLocationService>()
-        .AddScoped<YandexChatGpt>()
+        .AddScoped<YandexChatGptService>()
         .AddAuthentication(builder.Configuration)
         .AddAuthorization(options => { options.AddOnlyServicePolicy(); })
         ;
@@ -34,6 +35,13 @@ try
     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
     var app = builder.Build();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        await scope.ServiceProvider
+            .GetRequiredService<DbInitializer<ApplicationDbContext>>()
+            .InitAsync();
+    }
 
     if (app.Environment.IsDevelopment())
     {

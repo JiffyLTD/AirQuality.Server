@@ -1,5 +1,5 @@
-﻿using AirQuality.Core.DAL.Models;
-using AirQuality.WebService.DAL;
+﻿using AirQuality.Core.DAL;
+using AirQuality.Core.DAL.Models;
 using HotChocolate.Authorization;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +10,7 @@ public partial class Queries
     [GraphQLDescription("Получить информацию о средних показателях метеостанции")]
     [Authorize(Policy = Core.Constants.Policies.OnlyService)]
     [UseProjection]
-    public async Task<InfoByLocation> GetInfoByLocation([Service] MasterDbContext db, Guid stationId)
+    public async Task<InfoByLocation> GetInfoByLocation([Service] ApplicationDbContext db, Guid stationId)
     {
         try
         {

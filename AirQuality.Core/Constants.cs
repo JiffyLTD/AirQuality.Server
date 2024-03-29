@@ -1,6 +1,4 @@
-﻿using AirQuality.Core.DAL.Models;
-
-namespace AirQuality.Core;
+﻿namespace AirQuality.Core;
 
 public static class Constants
 {
@@ -8,6 +6,8 @@ public static class Constants
     public const string LogsFilename = "logs.txt";
     
     public const string ServiceClientId = "airquality-service";
+    
+    public const string NotValidLocation = "Invalid";
 
     public static class Policies
     {

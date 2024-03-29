@@ -1,5 +1,5 @@
-﻿using AirQuality.Core.DAL.Models;
-using AirQuality.WebService.DAL;
+﻿using AirQuality.Core.DAL;
+using AirQuality.Core.DAL.Models;
 using HotChocolate.Authorization;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +10,7 @@ public partial class Queries
     [GraphQLDescription("Получить данные от метеостанции")]
     [Authorize(Policy = Core.Constants.Policies.OnlyService)]
     [UseProjection]
-    public async Task<StationData?> GetStationDataLast([Service] MasterDbContext db, Guid stationId)
+    public async Task<StationData?> GetStationDataLast([Service] ApplicationDbContext db, Guid stationId)
     {
         try
         {

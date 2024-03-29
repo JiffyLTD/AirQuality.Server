@@ -1,3 +1,4 @@
+using AirQuality.Core.DAL;
 using AirQuality.Core.Extentions;
 using AirQuality.WebService;
 using AirQuality.WebService.Extentions;
@@ -7,7 +8,8 @@ using Serilog;
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File(AirQuality.Core.Constants.LogsFilename)
-    .CreateLogger();
+    .CreateLogger()
+    ;
 
 try
 {
@@ -28,13 +30,21 @@ try
 
     var app = builder.Build();
     
+    using (var scope = app.Services.CreateScope())
+    {
+        await scope.ServiceProvider
+            .GetRequiredService<DbInitializer<ApplicationDbContext>>()
+            .InitAsync();
+    }
+    
     app.UseHttpsRedirection()
         .UseAuthentication()
         .UseAuthorization()
         .UseRouting()
         .UseCors(
             options => 
-                options.AllowAnyOrigin()
+                options
+                    .AllowAnyOrigin()
                     .AllowAnyHeader()
                 )
         ;
