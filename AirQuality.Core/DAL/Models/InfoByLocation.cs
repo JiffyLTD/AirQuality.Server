@@ -6,8 +6,7 @@ namespace AirQuality.Core.DAL.Models;
 public class InfoByLocation : IInfoByLocation
 {
     public Guid Id { get; set; }
-
-    [ForeignKey("Station")]
+    
     public Guid StationId { get; set; }
 
     public string LocationName { get; set; }

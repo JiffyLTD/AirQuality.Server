@@ -6,16 +6,16 @@ namespace AirQuality.SensorService.Services;
 public class YandexChatGptService(IYaPrompter prompter)
 {
     public async Task<string> GetAdvices(string locationName, float avgTemperature, int avgHumidity,
-        int avgPm_1, int avgPm_2_5, int avgPm_10, int avgCo, int avgPressure)
+        int avgPm1, int avgPm2, int avgPm10, int avgCo, int avgPressure)
     {
         try
         {
             var requestText = $"В городе {locationName} " +
                 $"сейчас средняя температура воздуха {avgTemperature} градусов," +
                 $"влажность воздуха {avgHumidity}%," +
-                $"содержание pm 1 в воздухе {avgPm_1}," +
-                $"содержание pm 2.5 в воздухе {avgPm_2_5}," +
-                $"содержание pm 10 в воздухе {avgPm_10}," +
+                $"содержание pm 1 в воздухе {avgPm1}," +
+                $"содержание pm 2.5 в воздухе {avgPm2}," +
+                $"содержание pm 10 в воздухе {avgPm10}," +
                 $"содержание co в воздухе {avgCo}," +
                 $"и среднее давление {avgPressure}," + 
                 $"что ты можешь сказать об этом и какие дашь советы как лучше одеться?";

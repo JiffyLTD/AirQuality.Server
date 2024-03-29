@@ -1,15 +1,13 @@
-﻿using AirQuality.Core.DAL.Models;
-using AirQuality.SensorService.DAL;
+﻿using AirQuality.Core.DAL;
+using AirQuality.Core.DAL.Models;
 using AirQuality.SensorService.Inputs;
 using Serilog;
 
 namespace AirQuality.SensorService.Services;
 
-public class StationDataService(MasterDbContext db)
+public class StationDataService(ApplicationDbContext db)
 {
-    private readonly MasterDbContext _db = db;
-
-    public async Task<bool> CreateAsync(CreateStationDataInput createStationDataInput, string stationId)
+    public async Task CreateAsync(CreateStationDataInput createStationDataInput, string stationId)
     {
         try
         {
@@ -28,18 +26,16 @@ public class StationDataService(MasterDbContext db)
                UpdatedAt = DateTime.Now
            };
 
-            await _db.StationsData.AddAsync(stationData);
-            await _db.SaveChangesAsync();
+            await db.StationsData.AddAsync(stationData);
+            await db.SaveChangesAsync();
 
             Log.Information($"StationData {{ StationId = {stationData.StationId} }} was created");
-
-            return true;
         }
         catch (Exception ex)
         {
             Log.Error(ex.Message);
 
-            return false;
+            throw new Exception(ex.Message);
         }
     }
 }

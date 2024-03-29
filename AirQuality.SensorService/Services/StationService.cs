@@ -1,5 +1,6 @@
-﻿using AirQuality.Core.DAL.Models;
-using AirQuality.SensorService.DAL;
+﻿using AirQuality.Core;
+using AirQuality.Core.DAL;
+using AirQuality.Core.DAL.Models;
 using AirQuality.SensorService.Helpers;
 using AirQuality.SensorService.Inputs;
 using Microsoft.EntityFrameworkCore;
@@ -7,16 +8,14 @@ using Serilog;
 
 namespace AirQuality.SensorService.Services;
 
-public class StationService(MasterDbContext db)
+public class StationService(ApplicationDbContext db)
 {
-    private readonly MasterDbContext _db = db;
-
     public async Task<Guid> CreateOrUpdateAsync(CreateStationInput createStationInput)
     {
         try
         {
             var sensorId = Guid.Parse(createStationInput.SensorId);
-            var existStation = await _db.Stations.FirstOrDefaultAsync(s => s.SensorId == sensorId);
+            var existStation = await db.Stations.FirstOrDefaultAsync(s => s.SensorId == sensorId);
 
             if (existStation == null)
             {
@@ -29,8 +28,8 @@ public class StationService(MasterDbContext db)
                     UpdatedAt = DateTime.Now
                 };
 
-                await _db.Stations.AddAsync(station);
-                await _db.SaveChangesAsync();
+                await db.Stations.AddAsync(station);
+                await db.SaveChangesAsync();
 
                 Log.Information($"Station {{ SensorId = {sensorId} }} was created");
 
@@ -38,10 +37,10 @@ public class StationService(MasterDbContext db)
             }
 
             var newLocation = Helper.GetLongitudeAndLatitudeStringFromLocation(createStationInput.Location);
-            if (newLocation != "Invalid")
+            if (newLocation != Constants.NotValidLocation)
             {
                 existStation.Location = newLocation;
-                await _db.SaveChangesAsync();
+                await db.SaveChangesAsync();
             
                 Log.Information($"Station {{ SensorId = {sensorId} }} was updated");   
             }
@@ -52,7 +51,7 @@ public class StationService(MasterDbContext db)
         {
             Log.Error(ex.Message);
 
-            return Guid.Empty;
+            throw new Exception(ex.Message);
         }
     }
 }

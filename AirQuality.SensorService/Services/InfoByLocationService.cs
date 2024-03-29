@@ -1,29 +1,29 @@
-﻿using AirQuality.Core.DAL.Models;
-using AirQuality.SensorService.DAL;
+﻿using AirQuality.Core;
+using AirQuality.Core.DAL;
+using AirQuality.Core.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace AirQuality.SensorService.Services;
 
-public class InfoByLocationService(MasterDbContext db, YandexChatGptService yandexChatGptService)
+public class InfoByLocationService(ApplicationDbContext db, YandexChatGptService yandexChatGptService)
 {
-    private readonly MasterDbContext _db = db;
-    private readonly YandexChatGptService _yandexChatGptService = yandexChatGptService;
-
-    public async Task<bool> CreateOrUpdateAsync(string stationIdString)
+    public async Task CreateOrUpdateAsync(string stationIdString)
     {
         try
         {
             var stationId = Guid.Parse(stationIdString);
+            var station = await db.Stations.FirstOrDefaultAsync(x => x.Id == stationId);
+
+            if (station!.Location == Constants.NotValidLocation)
+                return;
             
             var yesterday = DateTime.Now.AddDays(-1);
-            var tomorrow = DateTime.Now.AddDays(1);
-
-            var stationDataList = await _db.StationsData
+            
+            var stationDataList = await db.StationsData
                 .Where(x => 
                     x.StationId == stationId &&
-                    x.CreatedAt >= yesterday &&
-                    x.CreatedAt <= tomorrow)
+                    x.CreatedAt >= yesterday)
                 .ToListAsync();
 
             // TODO: Сделать сервис поиска названия населенного пункта по координатам
@@ -37,10 +37,10 @@ public class InfoByLocationService(MasterDbContext db, YandexChatGptService yand
             var avgPressure = (int)stationDataList.Average(x => x.Pressure);
             // TODO: заменить параметры на один объект
             var aiAdvices 
-                = await _yandexChatGptService.GetAdvices(locationName, avgTemperature, avgHumidity, avgPm1, avgPm2, avgPm10, avgCo, avgPressure);
-            
-            var infoByLocation = await _db.InfosByLocation.FirstOrDefaultAsync(x => x.StationId == stationId);
+                = await yandexChatGptService.GetAdvices(locationName, avgTemperature, avgHumidity, avgPm1, avgPm2, avgPm10, avgCo, avgPressure);
 
+            var infoByLocation = await db.InfosByLocation.FirstOrDefaultAsync(x => x.StationId == stationId);
+            
             // TODO: Добавить логгирование
             if (infoByLocation == null)
             {
@@ -61,10 +61,8 @@ public class InfoByLocationService(MasterDbContext db, YandexChatGptService yand
                     UpdatedAt = DateTime.Now
                 };
 
-                await _db.InfosByLocation.AddAsync(newInfoByLocation);
-                await _db.SaveChangesAsync();
-
-                return true;
+                await db.InfosByLocation.AddAsync(newInfoByLocation);
+                await db.SaveChangesAsync();
             }
             else
             {
@@ -78,16 +76,15 @@ public class InfoByLocationService(MasterDbContext db, YandexChatGptService yand
                 infoByLocation.AvgPm2 = avgPm2;
                 infoByLocation.AvgPm10 = avgPm10;
                 infoByLocation.UpdatedAt = DateTime.Now;
-                await _db.SaveChangesAsync();
-
-                return true;
+                
+                await db.SaveChangesAsync();
             }
         }
         catch (Exception ex)
         {
             Log.Error(ex.Message);
 
-            return false;
+            throw new Exception(ex.Message);
         }
     }
 }

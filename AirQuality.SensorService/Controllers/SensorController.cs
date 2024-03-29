@@ -3,49 +3,35 @@ using AirQuality.SensorService.Inputs;
 using AirQuality.SensorService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace AirQuality.SensorService.Controllers;
 
 [ApiController]
 [Authorize(Policy = Constants.Policies.OnlyService)]
-public class SensorController : ControllerBase
+public class SensorController(
+    StationService stationService,
+    StationDataService stationDataService,
+    InfoByLocationService infoByLocationService) : ControllerBase
 {
-    private readonly StationService _stationService;
-    private readonly StationDataService _stationDataService;
-    private readonly InfoByLocationService _infoByLocationService;
-
-    public SensorController(StationService stationService,
-        StationDataService stationDataService, InfoByLocationService infoByLocationService)
-    {
-        _stationService = stationService;
-        _stationDataService = stationDataService;
-        _infoByLocationService = infoByLocationService;
-    }
-
     [HttpPost("api/sensor")]
     public async Task<IResult> Post(CreateRequestInput input)
     {
-        var stationId = await _stationService.CreateOrUpdateAsync(input.CreateStationInput);
-
-        if(stationId == Guid.Empty)
+        try
         {
-            return Results.BadRequest(new { errors = "Не удалось создать или обновить данные Station"});
+            var stationId = await stationService.CreateOrUpdateAsync(input.CreateStationInput);
+
+            await stationDataService.CreateAsync(input.CreateStationDataInput, stationId.ToString());
+
+            await infoByLocationService.CreateOrUpdateAsync(stationId.ToString());
+
+            return Results.Ok(true);
         }
-
-        var stationData = await _stationDataService.CreateAsync(input.CreateStationDataInput, stationId.ToString());
-
-        if (!stationData)
+        catch (Exception ex)
         {
-            return Results.BadRequest(new { errors = "Не удалось создать данные StationData" });
+            Log.Error(ex.Message);
+            
+            return Results.BadRequest(false);
         }
-
-        var infoByLocation = await _infoByLocationService.CreateOrUpdateAsync(stationId.ToString());
-
-        if (!infoByLocation)
-        {
-            return Results.BadRequest(new { errors = "Не удалось создать данные InfoByLocation" });
-        }
-
-        return Results.Ok(true);
     }
 }

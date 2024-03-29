@@ -1,15 +1,15 @@
+using AirQuality.Core.DAL;
 using AirQuality.Core.Extentions;
 using AirQuality.WebService;
-using AirQuality.WebService.DAL;
 using AirQuality.WebService.Extentions;
 using HotChocolate.AspNetCore;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File(AirQuality.Core.Constants.LogsFilename)
-    .CreateLogger();
+    .CreateLogger()
+    ;
 
 try
 {
@@ -32,17 +32,9 @@ try
     
     using (var scope = app.Services.CreateScope())
     {
-        var context = scope.ServiceProvider.GetRequiredService<MasterDbContext>();
-
-        try
-        {
-            context.Database.Migrate();
-            Log.Information("Миграции успешно применены");
-        }
-        catch (Exception ex)
-        {
-            Log.Information("Ошибка при выполнении миграций - " + ex.Message);
-        }
+        await scope.ServiceProvider
+            .GetRequiredService<DbInitializer<ApplicationDbContext>>()
+            .InitAsync();
     }
     
     app.UseHttpsRedirection()
@@ -51,7 +43,8 @@ try
         .UseRouting()
         .UseCors(
             options => 
-                options.AllowAnyOrigin()
+                options
+                    .AllowAnyOrigin()
                     .AllowAnyHeader()
                 )
         ;
