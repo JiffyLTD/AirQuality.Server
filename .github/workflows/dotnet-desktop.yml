@@ -1,0 +1,32 @@
+name: AirQuality.Server
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+jobs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    runs-on: ubuntu-latest                
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Build Core
+      run: 
+        cd AirQuality.Core
+        dotnet restore
+        dotnet build
+
+    - name: Build Sensor service
+      run: 
+        cd AirQuality.SensorService
+        dotnet restore
+        dotnet build   
