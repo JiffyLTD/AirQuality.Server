@@ -8,7 +8,7 @@ jobs:
   build:
     strategy:
       matrix:
-        configuration: [Debug, Release]
+        configuration: [ Release ]
     runs-on: ubuntu-latest                
 
     steps:
@@ -21,8 +21,8 @@ jobs:
 
     - name: Build Core
       run: 
-        cd AirQuality.Core
-        dotnet restore
+        cd AirQuality.Core |
+        dotnet restore |
         dotnet build
 
     - name: Build Sensor service
